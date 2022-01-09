@@ -224,7 +224,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
   if (index == 1) { // Encoder on master side
-    if(IS_LAYER_ON(_RAISE)) { // on Raise layer
+    if(IS_LAYER_ON(_LOWER)) {
       // Cursor control
       if (clockwise) {
           tap_code(KC_MNXT);
@@ -240,23 +240,23 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
       }
     }
   }
-  else if (index == 0) { // Encoder on slave side
-    if(IS_LAYER_ON(_LOWER)) { // on Lower layer
-      //
-      if (clockwise) {
-          tap_code(KC_RIGHT);
-      } else {
-          tap_code(KC_LEFT);
-      }
-    }
-    else {
-      if (clockwise) {
-          tap_code(KC_DOWN);
-      } else {
-          tap_code(KC_UP);
-      }
-    }
-  }
+//  else if (index == 0) { // Encoder on slave side
+//    if(IS_LAYER_ON(_LOWER)) { // on Lower layer
+//      //
+//      if (clockwise) {
+//          tap_code(KC_RIGHT);
+//      } else {
+//          tap_code(KC_LEFT);
+//      }
+//    }
+//    else {
+//      if (clockwise) {
+//          tap_code(KC_DOWN);
+//      } else {
+//          tap_code(KC_UP);
+//      }
+//    }
+//  }
     return true;
 }
 #endif
