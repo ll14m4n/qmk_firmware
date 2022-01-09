@@ -21,6 +21,7 @@
 
 enum layer_number {
   _QWERTY = 0,
+  _ISRT,
   _LOWER,
   _RAISE,
   _ADJUST,
@@ -53,6 +54,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,  KC_RBRC,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RSFT,
                       LOWER, KC_LGUI,  KC_LALT, KC_SPC,   KC_ENT,   KC_BSPC,  KC_RGUI, RAISE
 ),
+
+/* ISRT
+ * ,-----------------------------------------.                    ,-----------------------------------------.
+ * | ESC  |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |  ~   |
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * | Tab  |   Y  |   C  |   L  |   M  |   K  |                    |   Z  |   F  |   U  |   <  |   "  |  {   |
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * |LCTRL |   I  |   S  |   R  |   T  |   G  |-------.    ,-------|   P  |   N  |   E  |   A  |   O  |  ;   |
+ * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
+ * |LShift|   Q  |   V  |   W  |   D  |   J  |-------|    |-------|   B  |   H  |   /  |   .  |   X  |RShift|
+ * `-----------------------------------------/       /     \      \-----------------------------------------'
+ *                   |LOWER | LGUI | Alt  | /Space  /       \Enter \  |BackSP| RGUI |RAISE |
+ *                   |      |      |      |/       /         \      \ |      |      |      |
+ *                   `-------------------''-------'           '------''--------------------'
+ */
+
+ [_ISRT] = LAYOUT(
+  KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_GRV,
+  KC_TAB,   KC_W,   KC_C,    KC_L,    KC_M,    KC_K,                     KC_Z,    KC_F,    KC_U,    KC_COMM, KC_QUOTE, KC_MINS,
+  KC_LCTRL, KC_I,   KC_S,    KC_R,    KC_T,    KC_G,                     KC_P,    KC_N,    KC_E,    KC_A,    KC_O,     KC_SCLN,
+  KC_LSFT,  KC_Q,   KC_V,    KC_W,    KC_D,    KC_J, KC_LBRC,  KC_RBRC,  KC_B,    KC_H,    KC_SLSH, KC_DOT,  KC_X,     KC_RSFT,
+                      LOWER, KC_LGUI,  KC_LALT, KC_SPC,   KC_ENT,   KC_BSPC,  KC_RGUI, RAISE
+),
+
+
+
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
@@ -186,7 +213,7 @@ const char *read_keylogs(void) {
 }
 //new
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
   if (is_keyboard_master()) {
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
@@ -214,6 +241,7 @@ void oled_task_user(void) {
   } else {
       render_logo();
   }
+  return false;
 }
 #endif // OLED_DRIVER_ENABLE
 
