@@ -7,35 +7,49 @@
 enum layer_number {
     _QWERTY = 0,
     _COLEMAK,
-    _LOWER,
-    _RAISE,
-    _ADJUST,
+    _NAV,
+    _SYM,
+    _FUN,
+    _SYM2,
 };
 
 enum custom_keycodes { KC_QWER = SAFE_RANGE, KC_COLE };
 
 
 // layer
-#define LOW_SPC LT(_LOWER, KC_SPACE)
-//#define RAI_ENT  LT(_RAISE, KC_ENT)
-#define RAISE MO(_RAISE)
+//#define LOW_SPC LT(_NAV, KC_SPACE)
+//#define RAI_ENT  LT(_SYM, KC_ENT)
+#define MO_NAVI MO(_NAV)
+#define MO_SYMB MO(_SYM)
+#define MO_FUNC MO(_FUN)
+#define MO_SYM2 MO(_SYM2)
 
-// modifiers
-#define OS_LSFT OSM(MOD_LSFT)
-#define OS_RSFT OSM(MOD_RSFT)
-#define OS_LCTRL OSM(MOD_RCTL)
-#define OS_MEH OSM(MOD_MEH)    // focus apps, slate window manager
-#define OS_HYPR OSM(MOD_HYPR)
-//#define MEH_     MT(MOD_MEH,KC_NO)
+
+// one shot modifiers
+#define OS_LSFT  OSM(MOD_LSFT)
+#define OS_RSFT  OSM(MOD_RSFT)
+
+#define OS_LCTL  OSM(MOD_LCTL)
+#define OS_RCTL  OSM(MOD_RCTL)
+
+#define OS_LALT  OSM(MOD_LALT)
+#define OS_RALT  OSM(MOD_RALT)
+
+#define OS_LGUI  OSM(MOD_LGUI)
+#define OS_RGUI  OSM(MOD_RGUI)
+
+#define OS_MEH   OSM(MOD_MEH)
+#define OS_HYPR  OSM(MOD_HYPR)
 
 // mac os
-#define CH_LANG KC_F13         // mapped to select prev input lang in macOS
-#define ALFRED  KC_F14
-#define CLIPBRD KC_F15         // Alfred's snippets/clipboard history
 #define PREV_TB SCMD(KC_LBRC)  // cmd+shift+[
 #define NEXT_TB SCMD(KC_RBRC)  // cmd+shift+]
 #define BACK    LCMD(KC_LBRC)  // cmd+[
 #define FORWARD LCMD(KC_RBRC)  // cmd+]
+#define CMD_C   LCMD(KC_C)     // cmd+c
+#define CMD_V   LCMD(KC_V)     // cmd+v
+#define CMD_X   LCMD(KC_X)     // cmd+v
+#define CMD_Z   LCMD(KC_Z)     // cmd+v
 
 // @formatter:off
 // clang-format off
@@ -46,44 +60,54 @@ enum custom_keycodes { KC_QWER = SAFE_RANGE, KC_COLE };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT_wrapper(
-      KC_GESC,  ________________NUMBER_LEFT________________,                  ________________NUMBER_RIGHT_______________, KC_RBRC,
-      KC_TAB,   _________________QWERTY_L1_________________,                  _________________QWERTY_R1_________________, KC_LBRC,
-      OS_LCTRL, _________________QWERTY_L2_________________,                  _________________QWERTY_R2_________________, KC_QUOT,
-      OS_LSFT,  _________________QWERTY_L3_________________, KC_COLE, CH_LANG,_________________QWERTY_R3_________________, OS_RSFT,
-                                 KC_RCTRL, KC_LALT, KC_LGUI, LOW_SPC, KC_ENT, RAISE,  KC_BSPC, OS_MEH
+      KC_GESC, ________________NUMBER_LEFT________________,                   ________________NUMBER_RIGHT_______________, KC_RBRC,
+      KC_TAB,  _________________QWERTY_L1_________________,                   _________________QWERTY_R1_________________, KC_LBRC,
+      OS_LCTL, _________________QWERTY_L2_________________,                   _________________QWERTY_R2_________________, KC_QUOT,
+      KC_MEH,  _________________QWERTY_L3_________________, KC_F13,  KC_COLE, _________________QWERTY_R3_________________, KC_MEH,
+                                KC_LALT, KC_LGUI, MO_NAVI,  KC_SPC,  KC_RSFT, MO_SYMB, MO_NAVI, TG(_SYM2)
     ),
 
     [_COLEMAK] = LAYOUT_wrapper(
       _______, ___________________________________________,                   ___________________________________________, _______,
       _______, _________________COLEMAK_L1________________,                   _________________COLEMAK_R1________________, _______,
       _______, _________________COLEMAK_L2________________,                   _________________COLEMAK_R2________________, _______,
-      _______, _________________COLEMAK_L3________________, KC_QWER, _______, _________________COLEMAK_R3________________, _______,
+      _______, _________________COLEMAK_L3________________, _______, KC_QWER, _________________COLEMAK_R3________________, _______,
                                  _______, _______, _______, _______, _______, _______,  _______, _______
     ),
 
-    [_LOWER] = LAYOUT_wrapper(
-      XXXXXXX, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX,                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX,                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, XXXXXXX,
-      _______, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX,                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, _______,
-      _______, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, ALFRED,  _______, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, _______,
+    [_NAV] = LAYOUT(
+      KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PGUP, KC_HOME, KC_UP,   KC_END,  XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI, XXXXXXX,                   KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, OS_RCTL, KC_DEL,
+      XXXXXXX, CMD_Z,   CMD_X,   CMD_C,   CMD_V,   XXXXXXX, XXXXXXX, _______, KC_BSPC, CMD_C,   CMD_V,   XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, _______, _______, _______, KC_ENT,  _______, _______, _______
+    ),
+
+    [_SYM] = LAYOUT(
+      KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS, KC_QUOT, XXXXXXX,
+      XXXXXXX, KC_BSLS, KC_PIPE, KC_LCBR, KC_LPRN, KC_LBRC,                   KC_ASTR, KC_RGUI, KC_RALT, KC_RSFT, KC_RCTL, XXXXXXX,
+      XXXXXXX, KC_CIRC, KC_AMPR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC, XXXXXXX, KC_LT,   KC_GT,   XXXXXXX, XXXXXXX,
+                                 _______, _______, _______, MO_SYM2, _______, _______, _______, _______
+    ),
+
+    [_FUN] = LAYOUT(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_F12,  KC_F7,   KC_F8,   KC_F9,   XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI, XXXXXXX,                   KC_F11,  KC_F4,   KC_F5,   KC_F6,   XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F10,  KC_F1,   KC_F2,   KC_F3,   XXXXXXX, XXXXXXX,
                                  _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
-    [_RAISE] = LAYOUT(
-      KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PGUP, KC_HOME, KC_UP,   KC_END,  XXXXXXX, KC_F12,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PGDN, KC_LEFT, KC_DOWN, KC_RIGHT,XXXXXXX, XXXXXXX,
-      _______, G(KC_Z), G(KC_X), G(KC_C), G(KC_V), XXXXXXX, KC_F15,  XXXXXXX, XXXXXXX, PREV_TB, NEXT_TB, BACK,    FORWARD, _______,
-                                 _______, _______, _______, _______, _______, _______, KC_DEL,  XXXXXXX
+    [_SYM2] = LAYOUT(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, KC_P7,   KC_P8,   KC_P9,   XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, KC_RCBR, KC_RPRN, KC_RBRC,                   XXXXXXX, KC_P4,   KC_P5,   KC_P6,   XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC, KC_P1,   KC_P2,   KC_P3,   XXXXXXX, XXXXXXX,
+                                 _______, _______, _______, _______, KC_PENT, KC_P0,   KC_PDOT, TG(_SYM2)
     ),
 
-    [_ADJUST] = LAYOUT(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,   XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
-                                 _______, _______, _______, _______, _______,  _______, _______, _______
-    )
+
 };
 
 // @formatter:on
@@ -97,7 +121,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
+    state = update_tri_layer_state(state, _SYM, _NAV, _FUN);
     return state;
 }
 
@@ -116,14 +140,17 @@ bool oled_task_user(void) {
             case _QWERTY:
                 oled_write_ln_P(PSTR("Default"), false);
                 break;
-            case _RAISE:
-                oled_write_ln_P(PSTR("Raise"), false);
+            case _NAV:
+                oled_write_ln_P(PSTR("N A V"), false);
                 break;
-            case _LOWER:
-                oled_write_ln_P(PSTR("Lower"), false);
+            case _SYM:
+                oled_write_ln_P(PSTR("S Y M"), false);
                 break;
-            case _ADJUST:
-                oled_write_ln_P(PSTR("Adjust"), false);
+            case _FUN:
+                oled_write_ln_P(PSTR("F U N"), false);
+                break;
+            case _SYM2:
+                oled_write_ln_P(PSTR("S Y M 2"), false);
                 break;
             default:
                 oled_write_ln_P(PSTR("Undefined"), false);
@@ -174,7 +201,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 1) {  // Encoder on master side
-        if (IS_LAYER_ON(_LOWER)) {
+        if (IS_LAYER_ON(_NAV)) {
             // Cursor control
             if (clockwise) {
                 tap_code(KC_MNXT);
@@ -190,7 +217,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         }
     }
     //  else if (index == 0) { // Encoder on slave side
-    //    if(IS_LAYER_ON(_LOWER)) { // on Lower layer
+    //    if(IS_LAYER_ON(_NAV)) { // on Lower layer
     //      //
     //      if (clockwise) {
     //          tap_code(KC_RIGHT);

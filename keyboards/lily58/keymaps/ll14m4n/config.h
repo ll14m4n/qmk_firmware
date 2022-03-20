@@ -28,13 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MASTER_RIGHT
 #define EE_HANDS
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 5
+#define DYNAMIC_KEYMAP_LAYER_COUNT 6
 
 #define USE_SERIAL_PD2
 
 #define TAPPING_TOGGLE 2
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 150
+#define ONESHOT_TIMEOUT 1000
 
 /* Encoder support */
 #define ENCODERS_PAD_A { F5 }
