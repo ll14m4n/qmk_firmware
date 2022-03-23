@@ -50,9 +50,12 @@ enum custom_keycodes { KC_QWER = SAFE_RANGE, KC_COLE };
 #define CMD_V   LCMD(KC_V)     // cmd+v
 #define CMD_X   LCMD(KC_X)     // cmd+v
 #define CMD_Z   LCMD(KC_Z)     // cmd+v
+#define MEH_F13 MT(MOD_MEH,KC_F13)
+#define MEH_F14 MT(MOD_MEH,KC_F14)
+#define MEH_F15 MT(MOD_MEH,KC_F15)
 
 // @formatter:off
-// clang-format off
+// clang-format offoffoffoff
 
 
 #define LAYOUT_wrapper(...)                  LAYOUT(__VA_ARGS__)
@@ -63,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_GESC, ________________NUMBER_LEFT________________,                   ________________NUMBER_RIGHT_______________, KC_RBRC,
       KC_TAB,  _________________QWERTY_L1_________________,                   _________________QWERTY_R1_________________, KC_LBRC,
       OS_LCTL, _________________QWERTY_L2_________________,                   _________________QWERTY_R2_________________, KC_QUOT,
-      KC_MEH,  _________________QWERTY_L3_________________, KC_F13,  KC_COLE, _________________QWERTY_R3_________________, KC_MEH,
+      MEH_F13, _________________QWERTY_L3_________________, KC_F13,  KC_COLE, _________________QWERTY_R3_________________, MEH_F14,
                                 KC_LALT, KC_LGUI, MO_NAVI,  KC_SPC,  KC_RSFT, MO_SYMB, MO_NAVI, TG(_SYM2)
     ),
 
@@ -71,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, ___________________________________________,                   ___________________________________________, _______,
       _______, _________________COLEMAK_L1________________,                   _________________COLEMAK_R1________________, _______,
       _______, _________________COLEMAK_L2________________,                   _________________COLEMAK_R2________________, _______,
-      _______, _________________COLEMAK_L3________________, _______, KC_QWER, _________________COLEMAK_R3________________, _______,
+      _______, _________________COLEMAK_L3________________, KC_F13,  KC_QWER, _________________COLEMAK_R3________________, _______,
                                  _______, _______, _______, _______, _______, _______,  _______, _______
     ),
 
@@ -79,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PGUP, KC_HOME, KC_UP,   KC_END,  XXXXXXX, XXXXXXX,
       XXXXXXX, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI, XXXXXXX,                   KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, OS_RCTL, KC_DEL,
-      XXXXXXX, CMD_Z,   CMD_X,   CMD_C,   CMD_V,   XXXXXXX, XXXXXXX, _______, KC_BSPC, CMD_C,   CMD_V,   XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, CMD_Z,   CMD_X,   CMD_C,   CMD_V,   XXXXXXX, _______, _______, KC_BSPC, CMD_C,   CMD_V,   XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______, _______, _______, KC_ENT,  _______, _______, _______
     ),
 
