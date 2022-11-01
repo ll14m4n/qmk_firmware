@@ -5,8 +5,7 @@
 // extern uint8_t is_master;
 
 enum layer_number {
-    _QWERTY = 0,
-    _COLEMAK,
+    _COLEMAK = 0,
     _NAV,
     _SYM,
     _FUN,
@@ -61,14 +60,6 @@ enum custom_keycodes { KC_QWER = SAFE_RANGE, KC_COLE };
 #define LAYOUT_wrapper(...)                  LAYOUT(__VA_ARGS__)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-    [_QWERTY] = LAYOUT_wrapper(
-      KC_GESC, ________________NUMBER_LEFT________________,                   ________________NUMBER_RIGHT_______________, KC_RBRC,
-      KC_TAB,  _________________QWERTY_L1_________________,                   _________________QWERTY_R1_________________, KC_LBRC,
-      OS_LCTL, _________________QWERTY_L2_________________,                   _________________QWERTY_R2_________________, KC_QUOT,
-      MEH_F13, _________________QWERTY_L3_________________, KC_F13,  KC_COLE, _________________QWERTY_R3_________________, MEH_F14,
-                                KC_LALT, KC_LGUI, MO_NAVI,  KC_SPC,  KC_RSFT, MO_SYMB, MO_NAVI, TG(_SYM2)
-    ),
 
     [_COLEMAK] = LAYOUT_wrapper(
       _______, ___________________________________________,                   ___________________________________________, _______,
@@ -140,9 +131,6 @@ bool oled_task_user(void) {
         oled_write_P(PSTR("Layer: "), false);
 
         switch (get_highest_layer(layer_state)) {
-            case _QWERTY:
-                oled_write_ln_P(PSTR("Default"), false);
-                break;
             case _NAV:
                 oled_write_ln_P(PSTR("N A V"), false);
                 break;
@@ -168,37 +156,37 @@ bool oled_task_user(void) {
 }
 #endif  // OLED_ENABLE
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case KC_COLE:
-            if (record->event.pressed && !get_mods()) {
-                default_layer_set(1UL << _COLEMAK);
-                tap_code(KC_F13);
-#ifdef OLED_ENABLE
-                if (is_keyboard_master()) {
-                    oled_write_ln_P(PSTR("COLEMAK"), false);
-                }
-#endif
-            }
-            break;
-
-        case KC_QWER:
-            if (record->event.pressed && !get_mods()) {
-                default_layer_set(1UL << _QWERTY);
-                tap_code(KC_F13);
-#ifdef OLED_ENABLE
-                if (is_keyboard_master()) {
-                    oled_write_ln_P(PSTR("QWERTY"), false);
-                }
-#endif
-            }
-            break;
-
-        default:
-            break;
-    }
-    return true;
-}
+//bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+//    switch (keycode) {
+//        case KC_COLE:
+//            if (record->event.pressed && !get_mods()) {
+//                default_layer_set(1UL << _COLEMAK);
+//                tap_code(KC_F13);
+//#ifdef OLED_ENABLE
+//                if (is_keyboard_master()) {
+//                    oled_write_ln_P(PSTR("COLEMAK"), false);
+//                }
+//#endif
+//            }
+//            break;
+//
+//        case KC_QWER:
+//            if (record->event.pressed && !get_mods()) {
+//                default_layer_set(1UL << _QWERTY);
+//                tap_code(KC_F13);
+//#ifdef OLED_ENABLE
+//                if (is_keyboard_master()) {
+//                    oled_write_ln_P(PSTR("QWERTY"), false);
+//                }
+//#endif
+//            }
+//            break;
+//
+//        default:
+//            break;
+//    }
+//    return true;
+//}
 
 // Rotary encoder related code
 #ifdef ENCODER_ENABLE
